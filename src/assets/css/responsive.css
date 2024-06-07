@@ -1,0 +1,53 @@
+/* Adjust font sizes and line heights for better readability on smaller screens */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+}
+
+/* Make images fluid to adapt to different screen sizes */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Adjust padding and margins for better spacing on smaller screens */
+@media (max-width: 576px) {
+    .container {
+        padding: 10px;
+    }
+    .section {
+        margin-bottom: 20px;
+    }
+}
+
+/* Hide certain elements on smaller screens */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+}
+
+/* Adjust the layout for better readability and usability on smaller screens */
+@media (max-width: 768px) {
+    .main-content {
+        width: 100%;
+    }
+}
+
+/* Center align text on smaller screens */
+@media (max-width: 576px) {
+    .text-center-mobile {
+        text-align: center;
+    }
+}
+
+/* Adjust the number of columns in a grid layout for different screen sizes */
+@media (min-width: 576px) {
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
