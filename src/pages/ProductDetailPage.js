@@ -1,15 +1,38 @@
 import React from 'react';
+import { useParams, Link } from 'react-router-dom';
 
 const ProductDetailPage = () => {
+    const { id } = useParams(); // Extract product id from URL params
+
+    const productId = parseInt(id); // Convert id to integer
+
     // Dummy product data (replace with actual data from your API)
-    const product = {
-        id: 1,
-        name: 'Shop item template',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?',
-        price: 40.00,
-        image: 'https://dummyimage.com/600x700/dee2e6/6c757d.jpg',
-        sku: 'BST-498'
-    };
+    const products = [
+        {
+            id: 1,
+            name: 'Premium T-Shirt',
+            description: 'High-quality cotton t-shirt with a stylish design.',
+            price: 19.99,
+            image: 'https://dummyimage.com/600x700/dee2e6/6c757d.jpg',
+            sku: 'BST-498'
+        },
+        {
+            id: 2,
+            name: 'Casual Sneakers',
+            description: 'Comfortable sneakers for everyday wear.',
+            price: 39.99,
+            image: 'https://dummyimage.com/600x700/dee2e6/6c757d.jpg',
+            sku: 'BST-499'
+        }
+    ];
+
+    // Find the product with the matching id
+    const product = products.find(product => product.id === productId);
+
+    // Return a message if the product is not found
+    if (!product) {
+        return <div>Product not found</div>;
+    }
 
     return (
         <section className="py-5">
@@ -30,6 +53,7 @@ const ProductDetailPage = () => {
                                 <i className="bi-cart-fill me-1"></i>
                                 Add to cart
                             </button>
+                            <Link to="/products" className="btn btn-dark mx-3">Back to Products</Link> {/* Add Back button */}
                         </div>
                     </div>
                 </div>
