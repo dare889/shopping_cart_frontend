@@ -68,3 +68,62 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+
+
+
+
+
+
+
+shopping_cart_frontend/
+│
+├── public/
+│   ├── index.html
+│   └── ...
+│
+├── src/
+│   ├── components/
+│   │   ├── Common/
+│   │   │   ├── Header.js
+│   │   │   ├── Footer.js
+│   │   │   └── ...
+│   │   ├── Auth/
+│   │   │   ├── Login.js
+│   │   │   ├── Register.js
+│   │   │   └── ...
+│   │   ├── ProductDisplay/
+│   │   │   ├── ProductList.js
+│   │   │   ├── ProductItem.js
+│   │   │   └── ...
+│   │   ├── ShoppingCart/
+│   │   │   ├── ShoppingCart.js
+│   │   │   ├── ShoppingCartItem.js
+│   │   │   └── ...
+│   │   ├── Admin/
+│   │   │   ├── AdminDashboard.js
+│   │   │   ├── ProductManagement.js
+│   │   │   └── ...
+│   │   └── ...
+│   │
+│   ├── pages/
+│   │   ├── Home.js
+│   │   ├── Login.js
+│   │   ├── Register.js
+│   │   ├── ProductListPage.js
+│   │   ├── ShoppingCartPage.js
+│   │   ├── AdminDashboardPage.js
+│   │   ├── ProductManagementPage.js
+│   │   └── ...
+│   ├── assets/
+│   │   ├── bootstrap-5.0.2-dist/
+│   │   ├── images/
+│   │   ├── css/
+│   ├── App.js
+│   ├── index.js
+│   └── ...
+│
+│
+└── ...
