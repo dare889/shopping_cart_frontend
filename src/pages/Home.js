@@ -1,6 +1,34 @@
 import React from 'react';
 
 const Home = () => {
+    // Define an array of hot items
+    const hotItems = [
+        {
+            id: 1,
+            title: 'Item 1',
+            price: 4.25,
+            originalPrice: 6.00,
+            image: 'https://dummyimage.com/600x400/dee2e6/6c757d.jpg',
+            deliveryDate: '25/06/2024'
+        },
+        {
+            id: 2,
+            title: 'Item 2',
+            price: 3.50,
+            originalPrice: 5.00,
+            image: 'https://dummyimage.com/600x400/dee2e6/6c757d.jpg',
+            deliveryDate: '26/06/2024'
+        },
+        {
+            id: 3,
+            title: 'Item 3',
+            price: 5.75,
+            originalPrice: 7.00,
+            image: 'https://dummyimage.com/600x400/dee2e6/6c757d.jpg',
+            deliveryDate: '27/06/2024'
+        }
+    ];
+
     return (
     <div class="container px-4 px-lg-5">
         {/* Heading Row*/}
@@ -46,6 +74,31 @@ const Home = () => {
                 </div>
             </div>
         </div>
+        {/* Content Row Hot item list */}
+        {/* Hot item list */}
+        <div className="row gx-4 gx-lg-5">
+            {/* Hot item list */}
+            {hotItems.map(item => (
+                <div key={item.id} className="col-md-4 mb-5">
+                    <div className="card h-100">
+                        <div className="card-header">
+                            <h2 className="card-title">{item.title}</h2>
+                            <h5 className="card-subtitle mb-2 text-muted">Nectar Price</h5>
+                            <p className="card-text">£{item.price}</p>
+                        </div>
+                        <img className="card-img-top" src={item.image} alt={item.title} />
+                        <div className="card-body">
+                            <p className="card-text">Without Nectar £{item.originalPrice}</p>
+                            <button className="btn btn-primary btn-sm">Add</button>
+                        </div>
+                        <div className="card-footer">
+                            <small className="text-muted">Delivery by {item.deliveryDate}</small>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+
     </div>
     );
 }

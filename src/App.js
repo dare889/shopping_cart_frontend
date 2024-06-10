@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './assets/css/main.css';
-import Header from './components/Common/Header'; // Import Header component
-import Footer from './components/Common/Footer'; // Import Footer component
+import Header from './components/Common/Header'; 
+import Footer from './components/Common/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import ForgetPasswordPage from './pages/ForgotPasswordPage';
 import Register from './pages/Register';
 import About from './pages/About'; 
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -12,7 +13,7 @@ import ProductListPage from './pages/ProductListPage';
 import ShoppingCartPage from './pages/ShoppingCartPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import ProductManagementPage from './pages/ProductManagementPage';
-import './assets/js/bootstrap.bundle.min.js';
+import './assets/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
                   <Route path="/about" element={<About />} /> 
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/forget-password" element={<ForgetPasswordPage />}/>
                   <Route path="/products/:id" element={<ProductDetailPage />}/>
                   <Route path="/products" element={<ProductListPage />} />
                   <Route path="/cart" element={<ShoppingCartPage />} />
