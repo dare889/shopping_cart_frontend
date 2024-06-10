@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -15,41 +16,47 @@ const Register = () => {
     };
 
     return (
-        <div>
-            <h2>Register</h2>
+        <div className="container mt-5">
+            <h2 className="mb-4">Register</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">Email:</label>
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email:</label>
                     <input 
                         type="email" 
                         id="email" 
+                        className="form-control" 
                         value={email} 
                         onChange={(e) => setEmail(e.target.value)} 
                         required 
                     />
                 </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
+                <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Password:</label>
                     <input 
                         type="password" 
                         id="password" 
+                        className="form-control" 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
                         required 
                     />
                 </div>
-                <div>
-                    <label htmlFor="confirmPassword">Confirm Password:</label>
+                <div className="mb-3">
+                    <label htmlFor="confirmPassword" className="form-label">Confirm Password:</label>
                     <input 
                         type="password" 
                         id="confirmPassword" 
+                        className="form-control" 
                         value={confirmPassword} 
                         onChange={(e) => setConfirmPassword(e.target.value)} 
                         required 
                     />
                 </div>
-                <button type="submit">Register</button>
+                <button type="submit" className="btn btn-primary">Register</button>
             </form>
+            <div className="mt-3">
+                <Link to="/login" className="btn btn-link">Back to Login</Link>
+            </div>
         </div>
     );
 };
