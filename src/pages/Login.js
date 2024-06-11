@@ -1,45 +1,51 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Add login logic here (e.g., call backend API)
-        console.log('Login form submitted');
-        console.log('Email:', email);
-        console.log('Password:', password);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/api/login', { username, password });
+            localStorage.setItem('token', response.data.token);
+            navigate('/'); // Redirect to home page after successful login
+        } catch (error) {
+            setError('Invalid credentials');
+        }
     };
-
 
     return (
         <div className="container mt-5">
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email:</label>
+                    <label htmlFor="username" className="form-label">Username</label>
                     <input 
-                        type="email" 
-                        id="email" 
+                        type="text" 
                         className="form-control" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
+                        id="username" 
+                        value={username} 
+                        onChange={(e) => setUsername(e.target.value)} 
                         required 
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password:</label>
+                    <label htmlFor="password" className="form-label">Password</label>
                     <input 
                         type="password" 
-                        id="password" 
                         className="form-control" 
+                        id="password" 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
                         required 
                     />
                 </div>
+                {error && <div className="alert alert-danger">{error}</div>}
                 <button type="submit" className="btn btn-primary">Login</button>
             </form>
             <div className="mt-3">

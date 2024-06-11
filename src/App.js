@@ -14,28 +14,32 @@ import ShoppingCartPage from './pages/ShoppingCartPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import ProductManagementPage from './pages/ProductManagementPage';
 import './assets/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js';
+import { CartProvider } from './components/ShoppingCart/CartContext';
 
 const App = () => {
-  return (
-      <Router>
-          <div>
-              <Header /> {/* Include Header component */}
-              <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/about" element={<About />} /> 
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/forget-password" element={<ForgetPasswordPage />}/>
-                  <Route path="/products/:id" element={<ProductDetailPage />}/>
-                  <Route path="/products" element={<ProductListPage />} />
-                  <Route path="/cart" element={<ShoppingCartPage />} />
-                  <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-                  <Route path="/admin/products" element={<ProductManagementPage />} />
-              </Routes>
-              <Footer /> {/* Include Footer component */}
-          </div>
-      </Router>
-  );
+
+    return (
+        <CartProvider>
+            <Router>
+                <div>
+                    <Header /> {/* Include Header component */}
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} /> 
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/forget-password" element={<ForgetPasswordPage />}/>
+                        <Route path="/products/:id" element={<ProductDetailPage />}/>
+                        <Route path="/products" element={<ProductListPage />} />
+                        <Route path="/cart" element={<ShoppingCartPage />} />
+                        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+                        <Route path="/admin/products" element={<ProductManagementPage />} />
+                    </Routes>
+                    <Footer /> {/* Include Footer component */}
+                </div>
+            </Router>
+        </CartProvider>
+    );
 };
 
 

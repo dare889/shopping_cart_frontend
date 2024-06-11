@@ -1,7 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState , useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { CartContext } from '../ShoppingCart/CartContext';
+
 
 const Header = () => {
+    const { cart } = useContext(CartContext);
+    const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
+
+    const handleSearchSubmit = (event) => {
+        event.preventDefault();
+        // Navigate to the products page with the search query
+        navigate(`/products?search=${searchQuery}`);
+    };
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -19,17 +31,24 @@ const Header = () => {
                                 <a className="nav-link" href="/about">About</a>
                             </li>
                             <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                                <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><Link className="dropdown-item" to="/products">All Products</Link></li>
                                     <li><hr className="dropdown-divider" /></li>
-                                    <li><a className="dropdown-item" href="#!">Popular Items</a></li>
-                                    <li><a className="dropdown-item" href="#!">New Arrivals</a></li>
+                                    <li><a className="dropdown-item" href="/products">Popular Items</a></li>
+                                    <li><a className="dropdown-item" href="/products">New Arrivals</a></li>
                                 </ul>
                             </li>
                         </ul>
-                        <form className="d-flex">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                        <form className="d-flex" onSubmit={handleSearchSubmit}>
+                            <input
+                                className="form-control me-2"
+                                type="search"
+                                placeholder="Search"
+                                aria-label="Search"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
                             <button className="btn btn-outline-dark" type="submit">Search</button>
                         </form>
                         <ul className="navbar-nav mb-2 mb-lg-0">
@@ -41,7 +60,7 @@ const Header = () => {
                             <button className="btn btn-outline-dark" type="submit">
                                 <i className="bi-cart-fill me-1"></i>
                                 Cart
-                                <span className="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                                <span className="badge bg-dark text-white ms-1 rounded-pill">{cart.length}</span>
                             </button>
                         </form>
                     </div>
