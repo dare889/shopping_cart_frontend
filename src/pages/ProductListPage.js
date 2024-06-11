@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link
-
+import React, { useEffect, useState, useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom'; // Import Link and useLocation
+import { CartContext } from '../components/ShoppingCart/CartContext';
 
 const ProductListPage = () => {
+    const { addToCart } = useContext(CartContext); 
     const [products, setProducts] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [typeFilter, setTypeFilter] = useState('');
@@ -11,12 +12,13 @@ const ProductListPage = () => {
     const [maxPrice, setMaxPrice] = useState('');
     const [uniqueTypes, setUniqueTypes] = useState([]);
     const [uniqueSubTypes, setUniqueSubTypes] = useState([]);
+
+    const location = useLocation(); // Use useLocation to capture search query from URL
+
     useEffect(() => {
         // Fetch products from backend API when the component mounts
         const fetchProducts = async () => {
             try {
-                //const response = await axios.get('/api/products');
-                //setProducts(response.data);
                 const mockProducts = [
                     {
                         id: 1,
@@ -154,10 +156,8 @@ const ProductListPage = () => {
                         subType: 'Tablets'
                     }
                 ];
-                
-                
 
-                setProducts(mockProducts); 
+                setProducts(mockProducts);
 
                 // Get unique types and subtypes from the products
                 const types = [...new Set(mockProducts.map(product => product.type))];
@@ -170,11 +170,26 @@ const ProductListPage = () => {
             }
         };
         fetchProducts();
-    }, [typeFilter]); // Empty dependency array ensures useEffect runs only once
+    }, [typeFilter]); // Re-run the effect when typeFilter changes
+
+    useEffect(() => {
+        // Update search query from URL
+        const searchParams = new URLSearchParams(location.search);
+        const search = searchParams.get('search')?.toLowerCase() || '';
+        setSearchQuery(search);
+
+        // Set typeFilter and subTypeFilter if present in the URL
+        const type = searchParams.get('type')?.toLowerCase() || '';
+        const subType = searchParams.get('subtype')?.toLowerCase() || '';
+        setTypeFilter(type);
+        setSubTypeFilter(subType);
+    }, [location.search]);
 
     // Filter products based on the search query, type, subtype, and price range
-    const filteredProducts = products.filter(product => 
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+    const filteredProducts = products.filter(product =>
+        (product.name.toLowerCase().includes(searchQuery) ||
+        product.type.toLowerCase().includes(searchQuery) ||
+        product.subType.toLowerCase().includes(searchQuery)) &&
         (typeFilter === '' || product.type.toLowerCase() === typeFilter.toLowerCase()) &&
         (subTypeFilter === '' || product.subType.toLowerCase() === subTypeFilter.toLowerCase()) &&
         (minPrice === '' || product.price >= parseFloat(minPrice)) &&
@@ -264,6 +279,7 @@ const ProductListPage = () => {
                                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                     <div className="text-center">
                                         <Link className="btn btn-outline-dark mt-auto" to={`/products/${product.id}`}>View options</Link>
+                                        <button className="btn btn-primary mt-2" onClick={() => addToCart(product)}>Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -273,7 +289,7 @@ const ProductListPage = () => {
             </div>
         </section>
     );
-    
+
 };
 
 export default ProductListPage;

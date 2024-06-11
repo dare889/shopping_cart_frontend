@@ -1,36 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useContext } from 'react';
+import { CartContext } from '../components/ShoppingCart/CartContext';
 
 const ShoppingCartPage = () => {
-    const [cartItems, setCartItems] = useState([]);
-
-    useEffect(() => {
-        // Fetch cart items from the backend when the component mounts
-        const fetchCartItems = async () => {
-            try {
-                const response = await axios.get('/api/cart');
-                setCartItems(response.data);
-            } catch (error) {
-                console.error('Error fetching cart items:', error);
-            }
-        };
-        fetchCartItems();
-    }, []);
-
-    const handleRemoveFromCart = async (itemId) => {
-        try {
-            // Send a DELETE request to remove the item from the cart
-            await axios.delete(`/api/cart/${itemId}`);
-            // Update the list of cart items
-            const updatedCartItems = cartItems.filter(item => item.id !== itemId);
-            setCartItems(updatedCartItems);
-        } catch (error) {
-            console.error('Error removing item from cart:', error);
-        }
-    };
+    
+    const { cart, removeFromCart } = useContext(CartContext); // Use cart and removeFromCart from CartContext
 
     const calculateTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + item.price, 0).toFixed(2);
+        return cart.reduce((total, item) => total + item.price, 0).toFixed(2);
     };
 
     return (
@@ -46,12 +22,12 @@ const ShoppingCartPage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {cartItems.map(item => (
+                        {cart.map(item => (
                             <tr key={item.id}>
                                 <td>{item.name}</td>
                                 <td>${item.price.toFixed(2)}</td>
                                 <td>
-                                    <button className="btn btn-danger" onClick={() => handleRemoveFromCart(item.id)}>Remove</button>
+                                    <button className="btn btn-danger" onClick={() => removeFromCart(item.id)}>Remove</button>
                                 </td>
                             </tr>
                         ))}
