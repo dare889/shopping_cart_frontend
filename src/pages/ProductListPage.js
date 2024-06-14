@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom'; // Import Link and useLocation
 import { CartContext } from '../components/ShoppingCart/CartContext';
+import axios from 'axios';
+import config from '../config';
 
 const ProductListPage = () => {
     const { addToCart } = useContext(CartContext); 
@@ -46,118 +48,15 @@ const ProductListPage = () => {
                         image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
                         type: 'Electronics',
                         subType: 'Laptops'
-                    },
-                    {
-                        id: 4,
-                        name: 'Mock Product 4',
-                        description: 'Description for Mock Product 4',
-                        price: 25.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Home & Kitchen',
-                        subType: 'Cookware'
-                    },
-                    {
-                        id: 5,
-                        name: 'Mock Product 5',
-                        description: 'Description for Mock Product 5',
-                        price: 12.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Beauty & Personal Care',
-                        subType: 'Skincare'
-                    },
-                    {
-                        id: 6,
-                        name: 'Mock Product 6',
-                        description: 'Description for Mock Product 6',
-                        price: 18.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Electronics',
-                        subType: 'Headphones'
-                    },
-                    {
-                        id: 7,
-                        name: 'Mock Product 7',
-                        description: 'Description for Mock Product 7',
-                        price: 30.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Sports & Outdoors',
-                        subType: 'Fitness Equipment'
-                    },
-                    {
-                        id: 8,
-                        name: 'Mock Product 8',
-                        description: 'Description for Mock Product 8',
-                        price: 22.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Home & Kitchen',
-                        subType: 'Kitchen Appliances'
-                    },
-                    {
-                        id: 9,
-                        name: 'Mock Product 9',
-                        description: 'Description for Mock Product 9',
-                        price: 14.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Beauty & Personal Care',
-                        subType: 'Hair Care'
-                    },
-                    {
-                        id: 10,
-                        name: 'Mock Product 10',
-                        description: 'Description for Mock Product 10',
-                        price: 19.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Clothing',
-                        subType: 'Jeans'
-                    },
-                    {
-                        id: 11,
-                        name: 'Mock Product 11',
-                        description: 'Description for Mock Product 11',
-                        price: 16.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Electronics',
-                        subType: 'Smartwatches'
-                    },
-                    {
-                        id: 12,
-                        name: 'Mock Product 12',
-                        description: 'Description for Mock Product 12',
-                        price: 28.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Home & Kitchen',
-                        subType: 'Home Decor'
-                    },
-                    {
-                        id: 13,
-                        name: 'Mock Product 13',
-                        description: 'Description for Mock Product 13',
-                        price: 17.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Sports & Outdoors',
-                        subType: 'Camping Gear'
-                    },
-                    {
-                        id: 14,
-                        name: 'Mock Product 14',
-                        description: 'Description for Mock Product 14',
-                        price: 23.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Beauty & Personal Care',
-                        subType: 'Makeup'
-                    },
-                    {
-                        id: 15,
-                        name: 'Mock Product 15',
-                        description: 'Description for Mock Product 15',
-                        price: 26.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Electronics',
-                        subType: 'Tablets'
                     }
                 ];
 
-                setProducts(mockProducts);
+                //setProducts(mockProducts);
+
+                const response = await axios.get(`${config.apiBaseUrl}api/products`);
+                const products = response.data;
+                
+                setProducts(products);
 
                 // Get unique types and subtypes from the products
                 const types = [...new Set(mockProducts.map(product => product.type))];

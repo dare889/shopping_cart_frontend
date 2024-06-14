@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import config from '../config'; // Import the configuration file
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -11,9 +12,9 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/login', { username, password });
-            localStorage.setItem('token', response.data.token);
-            navigate('/'); // Redirect to home page after successful login
+            const response = await axios.post(`${config.apiBaseUrl}api/auth/login`, { username, password });
+            localStorage.setItem('token', response.data.access_token); // Assuming the token is in response.data.access_token
+            navigate('/dashboard'); // Redirect to dashboard after successful login
         } catch (error) {
             setError('Invalid credentials');
         }
@@ -24,22 +25,22 @@ const Login = () => {
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                    <label htmlFor="username" className="form-label">Username</label>
+                    <label htmlFor="username" className="form-label">Username:</label>
                     <input 
                         type="text" 
-                        className="form-control" 
                         id="username" 
+                        className="form-control" 
                         value={username} 
                         onChange={(e) => setUsername(e.target.value)} 
                         required 
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
+                    <label htmlFor="password" className="form-label">Password:</label>
                     <input 
                         type="password" 
-                        className="form-control" 
                         id="password" 
+                        className="form-control" 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
                         required 
