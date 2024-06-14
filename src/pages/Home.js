@@ -1,79 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import importAll from '../assets/units/importImages';
-
+import config from '../config'; // Make sure to create a config file for API base URL
 
 // Dynamically import all images from the assets/images directory
 const images = importAll(require.context('../assets/images', false, /\.(png|jpe?g|svg)$/));
 
 const Home = () => {
-    // Define an array of hot items
-    const hotItems = [
-        {
-            id: 1,
-            title: 'Hot Item 1',
-            price: 4.25,
-            originalPrice: 6.00,
-            image: images['6c757d.jpg'],
-            deliveryDate: '25/06/2024'
-        },
-        // Add more items up to 8
-        {
-            id: 2,
-            title: 'Hot Item 2',
-            price: 5.00,
-            originalPrice: 7.00,
-            image: images['6c757d.jpg'],
-            deliveryDate: '26/06/2024'
-        },
-        {
-            id: 3,
-            title: 'Hot Item 3',
-            price: 3.75,
-            originalPrice: 5.50,
-            image: images['6c757d.jpg'],
-            deliveryDate: '27/06/2024'
-        },
-        {
-            id: 4,
-            title: 'Hot Item 4',
-            price: 6.50,
-            originalPrice: 8.00,
-            image: images['6c757d.jpg'],
-            deliveryDate: '28/06/2024'
-        },
-        {
-            id: 5,
-            title: 'Hot Item 5',
-            price: 4.00,
-            originalPrice: 5.75,
-            image: images['6c757d.jpg'],
-            deliveryDate: '29/06/2024'
-        },
-        {
-            id: 6,
-            title: 'Hot Item 6',
-            price: 5.50,
-            originalPrice: 7.25,
-            image: images['6c757d.jpg'],
-            deliveryDate: '30/06/2024'
-        },
-        {
-            id: 7,
-            title: 'Hot Item 7',
-            price: 6.75,
-            originalPrice: 9.00,
-            image: images['6c757d.jpg'],
-            deliveryDate: '01/07/2024'
-        },
-        {
-            id: 8,
-            title: 'Hot Item 8',
-            price: 3.25,
-            originalPrice: 4.50,
-            image: images['6c757d.jpg'],
-            deliveryDate: '02/07/2024'
+    const [hotItems, setHotItems] = useState([]);
+
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
-    ];
+        return array;
+    };
+
+    useEffect(() => {
+        const fetchHotItems = async () => {
+            try {
+                const response = await axios.get(`${config.apiBaseUrl}/api/products`);
+                const hotItemsData = response.data.filter(item => item.hot_item);
+                setHotItems(shuffleArray(hotItemsData));
+            } catch (error) {
+                console.error('Error fetching hot items:', error);
+            }
+        };
+        fetchHotItems();
+    }, []);
 
     const carouselItems = [
         {
@@ -90,9 +45,12 @@ const Home = () => {
         }
     ];
 
+    const hotItemsList1 = hotItems.slice(0, 3);
+    const hotItemsList2 = hotItems.slice(3, 11);
+
     return (
         <div className="container px-4 px-lg-5">
-            {/* Heading Row*/}
+            {/* Heading Row */}
             <div className="row gx-4 gx-lg-5 align-items-center my-5">
                 <div className="col-lg-7">
                     <img className="img-fluid rounded mb-4 mb-lg-0" src={images['6c757d2.jpg']} alt="..." />
@@ -135,11 +93,11 @@ const Home = () => {
                 </button>
             </div>
 
-            {/* Call to Action*/}
+            {/* Call to Action */}
             <div className="card text-white bg-secondary my-5 py-4 text-center">
                 <div className="card-body"><p className="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>
             </div>
-            {/* Content Row*/}
+            {/* Content Row */}
             <div className="row gx-4 gx-lg-5">
                 <div className="col-md-4 mb-5">
                     <div className="card h-100">
@@ -169,49 +127,47 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            {/* Content Row Hot item list */}
+            {/* Content Row Hot item list 1 Show 3 random items */}
             <div className="row gx-4 gx-lg-5">
-                {/* Hot item list */}
-                {hotItems.map(item => (
+                {hotItemsList1.map(item => (
                     <div key={item.id} className="col-md-4 mb-5">
                         <div className="card h-100">
                             <div className="card-header">
-                                <h2 className="card-title">{item.title}</h2>
+                                <h2 className="card-title">{item.name}</h2>
                                 <h5 className="card-subtitle mb-2 text-muted">Nectar Price</h5>
                                 <p className="card-text">£{item.price}</p>
                             </div>
-                            <img className="card-img-top" src={item.image} alt={item.title} />
+                            <img className="card-img-top" src={item.image} alt={item.name} />
                             <div className="card-body">
-                                <p className="card-text">Without Nectar £{item.originalPrice}</p>
+                                <p className="card-text">Without Nectar £{item.original_price}</p>
                                 <button className="btn btn-primary btn-sm">Add</button>
                             </div>
                             <div className="card-footer">
-                                <small className="text-muted">Delivery by {item.deliveryDate}</small>
+                                <small className="text-muted">Delivery by {item.delivery_date}</small>
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
 
-            {/* Hot item list */}
+            {/* Hot item list 2 Show 8 random items */}
             <div className="container px-4 px-lg-5 mt-5">
-                {/* Hot item list */}
                 <div className="row gx-4 gx-lg-5">
-                    {hotItems.map((item, index) => (
+                    {hotItemsList2.map((item, index) => (
                         <div key={item.id} className="col-md-3 mb-5">
                             <div className="card h-100">
                                 <div className="card-header">
-                                    <h2 className="card-title">{item.title}</h2>
+                                    <h2 className="card-title">{item.name}</h2>
                                     <h5 className="card-subtitle mb-2 text-muted">Nectar Price</h5>
                                     <p className="card-text">£{item.price}</p>
                                 </div>
-                                <img className="card-img-top" src={item.image} alt={item.title} />
+                                <img className="card-img-top" src={item.image} alt={item.name} />
                                 <div className="card-body">
-                                    <p className="card-text">Without Nectar £{item.originalPrice}</p>
+                                    <p className="card-text">Without Nectar £{item.original_price}</p>
                                     <button className="btn btn-primary btn-sm">Add</button>
                                 </div>
                                 <div className="card-footer">
-                                    <small className="text-muted">Delivery by {item.deliveryDate}</small>
+                                    <small className="text-muted">Delivery by {item.delivery_date}</small>
                                 </div>
                             </div>
                         </div>
