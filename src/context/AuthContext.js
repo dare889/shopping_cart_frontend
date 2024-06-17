@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import config from '../config'; // Ensure this file exists and has the correct API base URL
+import config from '../config';
 
 export const AuthContext = createContext();
 
@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }) => {
                 }
             }
         };
-
         fetchUser();
     }, []);
 
