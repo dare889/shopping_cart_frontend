@@ -1,4 +1,3 @@
-// src/pages/Dashboard.js
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import config from '../config'; // Ensure this file exists and has the correct API base URL
@@ -10,14 +9,16 @@ const Dashboard = () => {
     const [editMode, setEditMode] = useState(false);
     const [updatedInfo, setUpdatedInfo] = useState({
         username: '',
-        email: ''
+        email: '',
+        password: ''
     });
 
     useEffect(() => {
         if (user) {
             setUpdatedInfo({
                 username: user.username,
-                email: user.email
+                email: user.email,
+                password: ''
             });
         }
     }, [user]);
@@ -49,6 +50,11 @@ const Dashboard = () => {
             });
             setUser(response.data);
             setEditMode(false);
+            setUpdatedInfo({
+                username: response.data.username,
+                email: response.data.email,
+                password: ''
+            });
         } catch (error) {
             console.error('Error updating profile:', error);
         }
@@ -71,7 +77,7 @@ const Dashboard = () => {
                                 className="form-control" 
                                 value={updatedInfo.username} 
                                 onChange={(e) => setUpdatedInfo({ ...updatedInfo, username: e.target.value })} 
-                                required 
+                                disabled 
                             />
                         </div>
                         <div className="mb-3">
@@ -83,6 +89,17 @@ const Dashboard = () => {
                                 value={updatedInfo.email} 
                                 onChange={(e) => setUpdatedInfo({ ...updatedInfo, email: e.target.value })} 
                                 required 
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="password" className="form-label">Password:</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                className="form-control" 
+                                value={updatedInfo.password} 
+                                onChange={(e) => setUpdatedInfo({ ...updatedInfo, password: e.target.value })} 
+                                placeholder="Leave blank to keep current password"
                             />
                         </div>
                         <button type="submit" className="btn btn-primary">Save</button>
@@ -106,7 +123,7 @@ const Dashboard = () => {
                         {orders.map(order => (
                             <li key={order.id} className="list-group-item">
                                 <p><strong>Order ID:</strong> {order.id}</p>
-                                <p><strong>Total:</strong> ${order.total}</p>
+                                <p><strong>Total:</strong> ${order.total_price}</p>
                                 <p><strong>Status:</strong> {order.status}</p>
                                 <p><strong>Items:</strong></p>
                                 <ul>
