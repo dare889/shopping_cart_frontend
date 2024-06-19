@@ -1,24 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import config from '../config'; // Import the configuration file
+import { useNavigate } from 'react-router-dom';
+import config from '../../config';
+import { AdminAuthContext } from '../../context/AdminAuthContext';
 
-const Login = () => {
+const AdminLogin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const location = useLocation(); // Use useLocation to get the current location
+    const { setUser } = useContext(AdminAuthContext); // Access the setUser function from AdminAuthContext
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${config.apiBaseUrl}api/auth/login`, { username, password });
-            localStorage.setItem('token', response.data.access_token); // Assuming the token is in response.data.access_token
+            const response = await axios.post(`${config.apiBaseUrl}/api/admin/login`, { username, password });
+            const { access_token } = response.data;
+            localStorage.setItem('token', access_token); // Save the token in localStorage
 
-            // Redirect to the page the user was originally trying to access, or to the dashboard if none
-            const redirectTo = location.state?.from || '/dashboard';
-            navigate(redirectTo);
+            // Fetch user details to set in the context
+            const userResponse = await axios.get(`${config.apiBaseUrl}/api/admin/detail`, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`
+                }
+            });
+
+            const userData = userResponse.data;
+            if (userData.admin_type) {
+                setUser(userData); // Update the user context with the admin user data
+                navigate('/admin/dashboard'); // Redirect to admin dashboard after successful login
+            } else {
+                setError('You are not authorized to access this page.');
+            }
         } catch (error) {
             setError('Invalid credentials');
         }
@@ -26,7 +39,7 @@ const Login = () => {
 
     return (
         <div className="container mt-5">
-            <h2>Login</h2>
+            <h2>Admin Login</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="username" className="form-label">Username:</label>
@@ -53,12 +66,8 @@ const Login = () => {
                 {error && <div className="alert alert-danger">{error}</div>}
                 <button type="submit" className="btn btn-primary">Login</button>
             </form>
-            <div className="mt-3">
-                <Link to="/forget-password" className="btn btn-link">Forgot Password?</Link>
-                <Link to="/register" className="btn btn-link">Register</Link>
-            </div>
         </div>
     );
 };
 
-export default Login;
+export default AdminLogin;

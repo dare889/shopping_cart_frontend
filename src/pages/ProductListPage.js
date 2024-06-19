@@ -14,6 +14,7 @@ const ProductListPage = () => {
     const [maxPrice, setMaxPrice] = useState('');
     const [uniqueTypes, setUniqueTypes] = useState([]);
     const [uniqueSubTypes, setUniqueSubTypes] = useState([]);
+    const [inputQuantities, setInputQuantities] = useState({}); // State to hold input quantities
 
     const location = useLocation(); // Use useLocation to capture search query from URL
 
@@ -21,46 +22,14 @@ const ProductListPage = () => {
         // Fetch products from backend API when the component mounts
         const fetchProducts = async () => {
             try {
-                const mockProducts = [
-                    {
-                        id: 1,
-                        name: 'Mock Product 1',
-                        description: 'Description for Mock Product 1',
-                        price: 10.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Electronics',
-                        subType: 'Mobile Phones'
-                    },
-                    {
-                        id: 2,
-                        name: 'Mock Product 2',
-                        description: 'Description for Mock Product 2',
-                        price: 20.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Clothing',
-                        subType: 'T-shirts'
-                    },
-                    {
-                        id: 3,
-                        name: 'Mock Product 3',
-                        description: 'Description for Mock Product 3',
-                        price: 15.99,
-                        image: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-                        type: 'Electronics',
-                        subType: 'Laptops'
-                    }
-                ];
-
-                //setProducts(mockProducts);
-
                 const response = await axios.get(`${config.apiBaseUrl}api/products`);
                 const products = response.data;
                 
                 setProducts(products);
 
                 // Get unique types and subtypes from the products
-                const types = [...new Set(mockProducts.map(product => product.type))];
-                const subTypes = [...new Set(mockProducts.filter(product => product.type === typeFilter).map(product => product.subType))];
+                const types = [...new Set(products.map(product => product.type))];
+                const subTypes = [...new Set(products.filter(product => product.type === typeFilter).map(product => product.subType))];
                 setUniqueTypes(types);
                 setUniqueSubTypes(subTypes);
 
@@ -94,6 +63,18 @@ const ProductListPage = () => {
         (minPrice === '' || product.price >= parseFloat(minPrice)) &&
         (maxPrice === '' || product.price <= parseFloat(maxPrice))
     );
+
+    const handleInputQuantityChange = (productId, quantity) => {
+        setInputQuantities(prevState => ({
+            ...prevState,
+            [productId]: quantity
+        }));
+    };
+
+    const handleAddToCart = (product) => {
+        const quantity = inputQuantities[product.id] || 1; // Default to 1 if no quantity specified
+        addToCart(product, quantity);
+    };
 
     return (
         <section className="py-5">
@@ -177,8 +158,16 @@ const ProductListPage = () => {
                                 </div>
                                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                     <div className="text-center">
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            className="form-control mb-2"
+                                            placeholder="Quantity"
+                                            value={inputQuantities[product.id] || 1}
+                                            onChange={(e) => handleInputQuantityChange(product.id, parseInt(e.target.value))}
+                                        />
                                         <Link className="btn btn-outline-dark mt-auto" to={`/products/${product.id}`}>View options</Link>
-                                        <button className="btn btn-primary mt-2" onClick={() => addToCart(product)}>Add to Cart</button>
+                                        <button className="btn btn-primary mt-2" onClick={() => handleAddToCart(product)}>Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
