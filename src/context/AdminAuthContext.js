@@ -1,19 +1,21 @@
+// src/context/AdminAuthContext.js
+
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import config from '../config';
 
-export const AuthContext = createContext();
+export const AdminAuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AdminAuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true); // Add a loading state
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUser = async () => {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    const response = await axios.get(`${config.apiBaseUrl}/api/auth/user`, {
+                    const response = await axios.get(`${config.apiBaseUrl}/api/admin/detail`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -23,18 +25,18 @@ export const AuthProvider = ({ children }) => {
                     console.error('Error fetching user:', error);
                 }
             }
-            setLoading(false); // Set loading to false after fetching user
+            setLoading(false);
         };
         fetchUser();
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>; // Render a loading state while fetching user
+        return <div>Loading...</div>;
     }
 
     return (
-        <AuthContext.Provider value={{ user, setUser }}>
+        <AdminAuthContext.Provider value={{ user, setUser }}>
             {children}
-        </AuthContext.Provider>
+        </AdminAuthContext.Provider>
     );
 };
