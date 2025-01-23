@@ -1,0 +1,44 @@
+.list-group-item {
+    cursor: pointer;
+}
+
+.list-group-item.active {
+    background-color: #5c7d7e;
+    color: white;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body {
+    text-align: center;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background-color: #4caf50;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}

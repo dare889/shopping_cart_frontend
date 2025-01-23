@@ -1,58 +1,42 @@
 import React from 'react';
-import image1 from '../../assets/images/logo.png'; 
+import importAll from '../../assets/units/importImages';
+const images = importAll(require.context('../../assets/images', false, /\.(png|jpe?g|svg)$/));
 
 const Footer = () => {
     return (
-        <footer>
-            <div className="container-fluid bg-light py-3">
-                <div className="container">
-                    <div className="row mt-3">
-                        <div className="col d-flex justify-content-center">
-                            <nav>
-                                <ul className="list-inline">
-                                    <li className="list-inline-item"><a href="/">About</a></li>
-                                    <li className="list-inline-item"><a href="/">Service</a></li>
-                                    <li className="list-inline-item"><a href="/">Product</a></li>
-                                    <li className="list-inline-item"><a href="/">Our Work</a></li>
-                                    <li className="list-inline-item"><a href="/">Other</a></li>
-                                    <li className="list-inline-item"><a href="/">Contact Us</a></li>
-                                </ul>
-                            </nav>
-                        </div>
+        <footer id="footer">
+            <div className="container">
+                <div className="logo-nav">
+                    <div className="logo">
+                        <img src={images['mocm_logo.png']} alt="藥師堂" title="藥師堂" />
                     </div>
-                    <div className="row align-items-center">
-                        <div className="col-md-4">
-                            <img className="img-fluid" src={image1} alt="Logo" />
-                        </div>
-                        <div className="col-md-8 d-flex justify-content-end">
-                            <div className="d-flex flex-column align-items-start me-5">
-                                <span className="fw-bold">Open Time (Booking)：</span>
-                                <span>Monday to Friday: 09:30am-19:30pm</span>
-                            </div>
-                            <div className="d-flex align-items-center me-5">
-                                <i className="bi bi-whatsapp me-2"></i>
-                                <span>+000 0000 0000</span>
-                            </div>
-                            <div className="d-flex align-items-center me-5">
-                                <i className="bi bi-envelope me-2"></i>
-                                <span>info@test.com</span>
-                            </div>
-                            <div className="d-flex flex-column align-items-start">
-                                <div className="d-flex align-items-center">
-                                    <i className="bi bi-geo-alt me-2"></i>
-                                    <span>Address test (Address 1）</span>
-                                </div>
-                                <div className="d-flex align-items-center">
-                                    <i className="bi bi-telephone me-2"></i>
-                                    <span>+000 0000 0000</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="nav-links">
+                        <a href="./doctors">醫師介紹</a>
+                        <a href="./service">服務範圍</a>
+                        <a href="./products">購買中藥產品</a>
+                        <a href="./events">每月活動</a>
+                        <a href="./learning">中醫智慧</a>
+                        <a href="./about">聯絡我們</a>
+                    </div>
+                </div>
+                <div className="info-section">
+                    <div>
+                        <p>開診時間(敬請預約)：</p>
+                        <p>星期一至六：09:30am-19:30pm</p>
+                    </div>
+                    <div className="contact-info">
+                        <p><i className="fa fa-whatsapp"><img src={images['whatsapp_icon.png']} alt="whatsapp" title="whatsapp" /> </i> +852 9201 6255</p>
+                        <p><i className="fa fa-envelope"><img src={images['email_icon.png']} alt="email" title="email" /> </i> info@mocmhk.com</p>
+                    </div>
+                    <div>
+                        <p><i className="fa fa-map-marker"><img src={images['gps_icon.png']} alt="map" title="map" /> </i> 九龍彌敦道521-523號禮基大廈12樓C</p>
+                        <p>(港鐵油麻地站B1出口)</p>
+                        <p><i className="fa fa-phone"><img src={images['tel_icon.png']} alt="tel" title="tel" /> </i> +852 2771 9951</p>
                     </div>
                 </div>
             </div>
-            <div className="bg-dark py-5">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+            <div className="bottom-bar">
+                <p>版權所有 © 2021 Mocm International Development Limited. All rights reserved.</p>
             </div>
         </footer>
     );

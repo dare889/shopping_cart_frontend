@@ -5,9 +5,12 @@ import config from '../config'; // Make sure to create a config file for API bas
 
 // Dynamically import all images from the assets/images directory
 const images = importAll(require.context('../assets/images', false, /\.(png|jpe?g|svg)$/));
+const productImages = importAll(require.context('../assets/images/home_products', false, /\.(png|jpe?g|svg)$/));
 
 const Home = () => {
     const [hotItems, setHotItems] = useState([]);
+    const [doctors, setDoctors] = useState([]);
+    const [products, setProducts] = useState([]);
 
     const shuffleArray = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
@@ -27,40 +30,83 @@ const Home = () => {
                 console.error('Error fetching hot items:', error);
             }
         };
+
+        const fetchDoctors = async () => {
+            try {
+                const response = await axios.get(`${config.backendUrl}/api/doctors`);
+                const doctorData = response.data.slice(0, 4); // Get only the first 4 doctors
+                setDoctors(doctorData);
+            } catch (error) {
+                console.error('Error fetching doctors:', error);
+            }
+        };
+
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get(`${config.backendUrl}/api/products`);
+                const productData = response.data.slice(0, 8); // Get only the first 8 products
+                setProducts(productData);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
         fetchHotItems();
+        fetchDoctors();
+        fetchProducts();
     }, []);
 
     const carouselItems = [
         {
-            src: images['6c757d2.jpg'],
-            alt: 'Slide 1'
+            src: images['banner1.png'],
+            alt: '藥師堂中醫綜合診所 專業團隊，有保障',
+            caption: '藥師堂中醫綜合診所',
+            text: '專業團隊，有保障'
         },
         {
-            src: images['6c757d2.jpg'],
-            alt: 'Slide 2'
+            src: images['banner2.png'],
+            alt: '藥師堂中醫綜合診所 藥專科學貴精誠 師承國粹滙精英',
+            caption: '藥師堂中醫綜合診所',
+            text: '藥專科學貴精誠 師承國粹滙精英'
         },
-        {
-            src: images['6c757d2.jpg'],
-            alt: 'Slide 3'
-        }
+        // Add more slides as needed
     ];
 
     const hotItemsList1 = hotItems.slice(0, 3);
     const hotItemsList2 = hotItems.slice(3, 11);
 
+
+
+    const articles = [
+        {
+            title: '亞健康',
+            image: images['v101_256.png'],
+            date: '10/10/2021',
+            url: '/learning/3'
+        },
+        {
+            title: '20個運動減肥方法',
+            image: images['v101_272.png'],
+            date: '10/10/2021',
+            url: '/learning/4'
+        },
+        {
+            title: '個人衛生',
+            image: images['v101_285.png'],
+            date: '10/10/2021',
+            url: '/learning/7'
+        },
+        {
+            title: '近視問題',
+            image: images['v101_298.png'],
+            date: '10/10/2021',
+            url: '/learning/8'
+        }
+    ];
+
     return (
         <div className="container px-4 px-lg-5">
-            {/* Heading Row */}
-            <div className="row gx-4 gx-lg-5 align-items-center my-5">
-                <div className="col-lg-7">
-                    <img className="img-fluid rounded mb-4 mb-lg-0" src={images['6c757d2.jpg']} alt="..." />
-                </div>
-                <div className="col-lg-5">
-                    <h1 className="font-weight-light">Business Name or Tagline</h1>
-                    <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
-                    <a className="btn btn-primary" href="#!">Call to Action!</a>
-                </div>
-            </div>
+
             {/* Carousel (Slideshow) */}
             <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
                 <div className="carousel-indicators">
@@ -80,6 +126,10 @@ const Home = () => {
                     {carouselItems.map((item, index) => (
                         <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
                             <img src={item.src} className="d-block w-100" alt={item.alt} />
+                            <div className="carousel-caption d-none d-md-block">
+                                <p>{item.caption}</p>
+                                <h5>{item.text}</h5>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -93,88 +143,137 @@ const Home = () => {
                 </button>
             </div>
 
-            {/* Call to Action */}
-            <div className="card text-white bg-secondary my-5 py-4 text-center">
-                <div className="card-body"><p className="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>
-            </div>
-            {/* Content Row */}
-            <div className="row gx-4 gx-lg-5">
-                <div className="col-md-4 mb-5">
-                    <div className="card h-100">
-                        <div className="card-body">
-                            <h2 className="card-title">Card One</h2>
-                            <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
-                        </div>
-                        <div className="card-footer"><a className="btn btn-primary btn-sm" href="#!">More Info</a></div>
+            {/* Info Section */}
+            <div className="info-section xs-100 sm-100 md-100 lg-100 xl-100">
+                <div className="left">
+                    <div className="intro">
+                        <h3>關於我們</h3>
+                        <h2>中醫門診部簡介</h2>
+                        <p>「藥師堂中醫門診」於2003年創辦，為發展中醫藥業訂下目標及宗旨，弘揚中醫中藥，造福社群健康；本診所由多位具有專業資格及大學畢業的全科註冊中醫師主理，配藥員亦受專業培訓。</p>
                     </div>
                 </div>
-                <div className="col-md-4 mb-5">
-                    <div className="card h-100">
-                        <div className="card-body">
-                            <h2 className="card-title">Card Two</h2>
-                            <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
+                <div className="right">
+                    <div class="item">
+                        <div class="space">&nbsp;</div>
+
+                        <div class="txt">
+                            <div class="icon"><img alt="" src={images['help2x.png']} /></div>
+
+                            <div class="del">
+                                <h2>有什麼可以幫到您？</h2>
+                                <p>內科、婦科、男科、兒科、針灸、骨傷、皮膚科、 腫瘤科、理療推拿、刮痧拔罐</p>
+                            </div>
                         </div>
-                        <div className="card-footer"><a className="btn btn-primary btn-sm" href="#!">More Info</a></div>
+
+                        <div class="feature">
+                            <a href="/service"><span>服務範圍</span> <img alt="" src={images['enter12x.png']} /> </a>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="space">&nbsp;</div>
+
+                        <div class="txt">
+                            <div class="icon"><img alt="" src={images['address2x.png']} /></div>
+
+                            <div class="del">
+                                <h2>我們的地址</h2>
+                                <p>九龍彌敦道521-523號禮基大廈12樓C（港鐵油麻地站B1出口）</p>
+                            </div>
+                        </div>
+
+                        <div class="feature">
+                            <a href="/about"><span>聯絡我們</span> <img alt="" src={images['enter12x.png']} /> </a>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="space">&nbsp;</div>
+
+                        <div class="txt">
+                            <div class="icon"><img alt="" src={images['protect2x.png']} /></div>
+
+                            <div class="del">
+                                <h2>怎樣可以保障健康？</h2>
+                                <p>本所產品經過嚴格把控，可以放心選購，品質保證。</p>
+                            </div>
+                        </div>
+
+                        <div class="feature">
+                            <a href="/products"><span>保健產品</span> <img alt="" src={images['enter12x.png']} /> </a>
+                        </div>
                     </div>
                 </div>
-                <div className="col-md-4 mb-5">
-                    <div className="card h-100">
-                        <div className="card-body">
-                            <h2 className="card-title">Card Three</h2>
-                            <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
-                        </div>
-                        <div className="card-footer"><a className="btn btn-primary btn-sm" href="#!">More Info</a></div>
-                    </div>
-                </div>
-            </div>
-            {/* Content Row Hot item list 1 Show 3 random items */}
-            <div className="row gx-4 gx-lg-5">
-                {hotItemsList1.map(item => (
-                    <div key={item.id} className="col-md-4 mb-5">
-                        <div className="card h-100">
-                            <div className="card-header">
-                                <h2 className="card-title">{item.name}</h2>
-                                <h5 className="card-subtitle mb-2 text-muted">Nectar Price</h5>
-                                <p className="card-text">£{item.price}</p>
-                            </div>
-                            <img className="card-img-top" src={item.image} alt={item.name} />
-                            <div className="card-body">
-                                <p className="card-text">Without Nectar £{item.original_price}</p>
-                                <button className="btn btn-primary btn-sm">Add</button>
-                            </div>
-                            <div className="card-footer">
-                                <small className="text-muted">Delivery by {item.delivery_date}</small>
-                            </div>
-                        </div>
-                    </div>
-                ))}
             </div>
 
-            {/* Hot item list 2 Show 8 random items */}
-            <div className="container px-4 px-lg-5 mt-5">
-                <div className="row gx-4 gx-lg-5">
-                    {hotItemsList2.map((item, index) => (
-                        <div key={item.id} className="col-md-3 mb-5">
-                            <div className="card h-100">
-                                <div className="card-header">
-                                    <h2 className="card-title">{item.name}</h2>
-                                    <h5 className="card-subtitle mb-2 text-muted">Nectar Price</h5>
-                                    <p className="card-text">£{item.price}</p>
-                                </div>
-                                <img className="card-img-top" src={item.image} alt={item.name} />
-                                <div className="card-body">
-                                    <p className="card-text">Without Nectar £{item.original_price}</p>
-                                    <button className="btn btn-primary btn-sm">Add</button>
-                                </div>
-                                <div className="card-footer">
-                                    <small className="text-muted">Delivery by {item.delivery_date}</small>
-                                </div>
+        {/* Doctors Section */}
+        <div className="doctors-section">
+            <div className="content">
+                <h2>我們的醫療權威專家</h2>
+                <h3>網上視診服務</h3>
+                <div className="doctors">
+                    {doctors.map((doctor, index) => (
+                        <div className="doctor" key={index}>
+                            <img src={`${config.backendUrl}/${doctor.image}`} alt={doctor.name} />
+                            <h4>{doctor.name}</h4>
+                            <div className="doctor-info">
+                                <p>{doctor.doctor_category}</p>
+                                <p>{doctor.introductory}</p>
+                                <a href="#" className="book-button">立即預約</a>
                             </div>
                         </div>
                     ))}
                 </div>
+                <a href="/doctors" className="more-button">更多醫生 →</a>
             </div>
         </div>
+
+        {/* Products Section */}
+        <div className="product-section">
+            <h2>產品中心</h2>
+            <div className="products">
+                {products.map((product, index) => (
+                    <div className="product" key={index}>
+                        <a href={`/products/${product.product_id}`}>
+                            <img
+                                src={product.image}
+                                title={product.name}
+                                alt={product.name}
+                                width="240"
+                                height="240"
+                            />
+                        </a>
+                        <div className="discount-label">-20%</div>
+                        <div className="product-info">
+                            <h4>{product.model}</h4>
+                            <p className="price"><span className="price-old">{product.discount_price}</span> <span className="price-new">{product.price}</span></p>
+                            <a href={`/products/${product.product_id}`} className="view-button">查看產品</a>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <a href="/products" className="more-button">更多產品 →</a>
+        </div>
+
+        {/* Articles Section */}
+        <div className="health-section">
+            <h2>健康小百科</h2>
+            <div className="articles">
+                {articles.map((article, index) => (
+                    <div className="article" key={index}>
+                        <a href={article.url}>
+                            <img src={article.image} alt={article.title} width={500}/>
+                            <div className="overlay">
+                                <h4>{article.title}</h4>
+                                <p>{article.date}</p>
+                            </div>
+                        </a>
+                    </div>
+                ))}
+            </div>
+            <a href="/learning" className="more-button">中醫智慧 →</a>
+        </div>
+    </div>
     );
 }
 

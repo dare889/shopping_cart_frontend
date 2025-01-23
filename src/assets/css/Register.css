@@ -1,0 +1,140 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px;
+    background-color: #f8f8f8;
+  }
+  
+  .register-form {
+    width: 100%;
+    max-width: 1200px;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .register-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .register-header h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .register-header p {
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .register-header a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .register-header a:hover {
+    text-decoration: underline;
+  }
+  
+  .register-body {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 40px; /* Add space between the left and right sections */
+  }
+  
+  .register-part-left,
+  .register-part-right {
+    flex: 1;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .radio-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .radio-group label {
+    margin-right: 20px;
+  }
+  
+  .radio-group input {
+    margin-right: 5px;
+  }
+  
+  .form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Add space between checkbox and other elements */
+  }
+  
+  .form-check input {
+    margin-right: 10px;
+  }
+  
+  .form-check a {
+    color: #007bff;
+    text-decoration: none;
+    padding-right: 20px;
+  }
+  
+  .form-check a:hover {
+    text-decoration: underline;
+  }
+  
+  .submit-section {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 30px; /* Increase margin for more separation */
+  }
+  
+  .submit-section button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-section button:hover {
+    background-color: #555;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .success {
+    color: green;
+    margin-top: 10px;
+  }
+  

@@ -7,15 +7,21 @@ import config from '../config';
 const ProductDetailPage = () => {
     const { id } = useParams(); // Extract product id from URL params
     const { addToCart } = useContext(CartContext); // Use addToCart from CartContext
+    const [quantity, setQuantity] = useState(1);
     const [product, setProduct] = useState(null); // State to store product details
+    const [recommendedProducts, setRecommendedProducts] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         // Fetch product details from the backend
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`${config.apiBaseUrl}api/products/${id}`);
+                const response = await axios.get(`${config.backendUrl}/api/products/${id}`);
                 setProduct(response.data);
+
+                const recommendedResponse = await axios.get(`${config.backendUrl}/api/products/recommended`);
+                setRecommendedProducts(recommendedResponse.data);
+
             } catch (error) {
                 setError('Product not found');
                 console.error('Error fetching product:', error);
@@ -24,6 +30,14 @@ const ProductDetailPage = () => {
 
         fetchProduct();
     }, [id]);
+
+    const handleAddToCart = () => {
+        addToCart({ ...product, quantity });
+    };
+
+    const handleQuantityChange = (amount) => {
+        setQuantity(prevQuantity => Math.max(1, prevQuantity + amount));
+    };
 
     // Return a message if the product is not found
     if (error) {
@@ -36,32 +50,43 @@ const ProductDetailPage = () => {
     }
 
     return (
-        <section className="py-5">
-            <div className="container px-4 px-lg-5 my-5">
-                <div className="row gx-4 gx-lg-5 align-items-center">
-                    <div className="col-md-6">
-                        <img className="card-img-top mb-5 mb-md-0" src={product.image} alt={product.name} />
-                    </div>
-                    <div className="col-md-6">
-                        <div className="small mb-1">SKU: {product.sku || 'N/A'}</div>
-                        <h1 className="display-5 fw-bolder">{product.name}</h1>
-                        <div className="fs-5 mb-5">
-                            <span className="text-decoration-line-through">${product.original_price}</span>
-                            <span>${product.price}</span>
+        <div className="container mt-5">
+            <div className="row">
+                <div className="col-md-6">
+                    <img src={product.image} className="img-fluid" alt={product.model} />
+                </div>
+                <div className="col-md-6">
+                    <h2>{product.model}</h2>
+                    <h3>HK${product.price}</h3>
+                    <p>詳情請聯繫WhatsApp咨詢：9201 6255</p>
+                    <div>
+                        <div className="input-group">
+                            <button className="btn btn-secondary" onClick={() => handleQuantityChange(-1)}>-</button>
+                            <input type="number" className="form-control" value={quantity} readOnly />
+                            <button className="btn btn-secondary" onClick={() => handleQuantityChange(1)}>+</button>
                         </div>
-                        <p className="lead">{product.description}</p>
-                        <div className="d-flex">
-                            <input className="form-control text-center me-3" id="inputQuantity" type="number" defaultValue="1" style={{maxWidth: '3rem'}} />
-                            <button className="btn btn-outline-dark flex-shrink-0" type="button" onClick={() => addToCart(product)}>
-                                <i className="bi-cart-fill me-1"></i>
-                                Add to cart
-                            </button>
-                            <Link to="/products" className="btn btn-dark mx-3">Back to Products</Link>
-                        </div>
+                        <button className="btn btn-primary mt-3" onClick={handleAddToCart}>加入購物車</button>
                     </div>
                 </div>
             </div>
-        </section>
+            <div className="mt-5">
+                <h3>推薦產品</h3>
+                <div className="row">
+                    {recommendedProducts.map((product) => (
+                        <div key={product.product_id} className="col-md-2">
+                            <div className="card">
+                                <img src={product.image} className="card-img-top" alt={product.model} />
+                                <div className="card-body">
+                                    <h5 className="card-title">{product.model}</h5>
+                                    <p className="card-text">HK${(product.price * 0.8).toFixed(2)}</p>
+                                    <button className="btn btn-primary" onClick={() => addToCart(product)}>加入購物車</button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
     );
 };
 

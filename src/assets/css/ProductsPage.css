@@ -1,0 +1,148 @@
+.list-group-item {
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.list-group-item.active {
+  background-color: #6f42c1;
+  color: white;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-group-item.active strong {
+  color: white;
+}
+
+.sublist {
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+}
+
+.sublist .list-group-item {
+  padding: 0.25rem 1rem;
+  font-size: 0.875rem;
+}
+
+.sublist .list-group-item.active {
+  background-color: #563d7c;
+}
+
+.sublist .list-group-item::before {
+  content: '\002B'; /* + */
+  margin-right: 0.5rem;
+}
+
+.sublist .list-group-item.active::before {
+  content: '\2212'; /* - */
+}
+
+.list-group > .list-group-item > .list-group-item {
+  background-color: transparent;
+  border: none;
+}
+
+
+/* Add this CSS to your styles */
+.list-group-item {
+  cursor: pointer;
+}
+
+.list-group-item.active {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+  color: white;
+}
+
+.list-group-item strong {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.list-group.sublist {
+  padding-left: 20px;
+}
+
+.list-group.sublist .list-group-item {
+  background-color: #f8f9fa;
+}
+
+.list-group.sublist .list-group-item:hover {
+  background-color: #e2e6ea;
+}
+
+.product-card {
+  position: relative;
+  border: 1px solid #ddd;
+}
+
+.product-image {
+  max-height: 150px;
+  object-fit: contain;
+  padding: 10px;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.new-price {
+  color: #c00;
+  font-weight: bold;
+}
+
+.badge.bg-red {
+  background-color: red;
+}
+
+.cart-button {
+  width: 100%;
+  border-radius: 10px;
+  background-color: #73b8aa;
+  display: flex;
+  justify-content: center;
+  font-size: small;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  list-style: none;
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-item.active .page-link {
+  background-color: #66B3A6;
+  border-color: #66B3A6;
+  color: white;
+}
+
+.page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #dee2e6;
+  text-decoration: none;
+}
+
+.page-link:hover {
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+}
+
+.page-link:focus {
+  box-shadow: none;
+}

@@ -1,0 +1,13 @@
+.account-page .list-group-item {
+    border: none;
+    padding: 10px 15px;
+}
+
+.account-page .list-group-item i {
+    margin-right: 10px;
+}
+
+.account-page .list-group-item strong {
+    display: block;
+    margin-bottom: 10px;
+}

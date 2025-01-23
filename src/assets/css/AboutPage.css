@@ -1,0 +1,120 @@
+.contact-box {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.contact-info-left, .contact-info-right {
+    width: 48%;
+    padding: 40px;
+    background-color: #D6F2ED;
+    border-left: 10px solid #6452A3;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.contact-title {
+    color: #6452A3;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.contact-description {
+    color: #1a2b3c;
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.contact-hours {
+    color: #2a4b6c;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.info-item {
+    font-size: 18px;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    color: #1a2b3c;
+}
+
+.info-item i {
+    margin-right: 10px;
+}
+
+.contact-form-title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #6452A3;
+}
+
+.contact-form .form-control {
+    margin-bottom: 10px;
+    border-radius: 0.25rem;
+}
+
+.contact-form .btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+}
+
+.contact-form .btn:hover {
+    background-color: #45a049;
+}
+
+.map-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.text-center {
+    text-align: center;
+    margin: 20px 0;
+    color: #6452A3;
+}
+
+.contact-form {
+    background-color: #e6f7f9;
+    border: 1px solid #d4e6e7;
+    border-radius: 5px;
+    padding: 20px;
+  }
+  
+  .contact-form .form-control {
+    margin-bottom: 10px;
+  }
+  
+  .contact-form .btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .contact-form .btn:hover {
+    background-color: #45a049;
+  }
+  
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .form-row .form-group {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .form-row textarea {
+    flex: 1;
+    min-width: calc(100% - 20px);
+  }

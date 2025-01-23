@@ -1,0 +1,62 @@
+.auth-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.register-section, .login-section {
+  width: 48%;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.register-section h2, .login-section h2 {
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.register-section p, .login-section p {
+  margin: 10px 0;
+}
+
+.register-section .btn-primary, .login-section .btn-primary {
+  margin-top: 20px;
+  padding: 10px 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.forgot-password-link {
+  display: block;
+  margin-bottom: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+.success {
+  color: green;
+  margin-top: 10px;
+}

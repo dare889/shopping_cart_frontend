@@ -7,9 +7,12 @@ const ShoppingCartPage = () => {
     const { cart, removeFromCart } = useContext(CartContext); // Use cart and removeFromCart from CartContext
     const { user } = useContext(AuthContext); // Use AuthContext to get user info
     const navigate = useNavigate(); // Use useNavigate to navigate programmatically
+    const token = localStorage.getItem('token');
 
     const calculateTotalPrice = () => {
-        return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+        return cart
+            .reduce((total, item) => total + (parseFloat(item.price) || 0) * item.quantity, 0)
+            .toFixed(2);
     };
 
     const handleCheckout = () => {
@@ -39,10 +42,10 @@ const ShoppingCartPage = () => {
                     <tbody>
                         {cart.map(item => (
                             <tr key={item.id}>
-                                <td>{item.name}</td>
-                                <td>${item.price.toFixed(2)}</td>
+                                <td>{item.model}</td>
+                                <td>${(parseFloat(item.price) || 0).toFixed(2)}</td>
                                 <td>{item.quantity}</td>
-                                <td>${(item.price * item.quantity).toFixed(2)}</td>
+                                <td>${((parseFloat(item.price) || 0) * item.quantity).toFixed(2)}</td>
                                 <td>
                                     <button className="btn btn-danger" onClick={() => removeFromCart(item.id)}>Remove</button>
                                 </td>
@@ -53,7 +56,7 @@ const ShoppingCartPage = () => {
                 <div>
                     <h3>Total Price: ${calculateTotalPrice()}</h3>
                     {/* Show login button if not logged in, else show checkout button */}
-                    {user ? (
+                    {token ? (
                         <button className="btn btn-primary" onClick={handleCheckout}>Proceed to Checkout</button>
                     ) : (
                         <button className="btn btn-primary" onClick={handleLogin}>Login to Checkout</button>
